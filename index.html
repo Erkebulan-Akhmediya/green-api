@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Тестовое задание</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .half {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .big-margin-top {
+            margin-top: 30px;
+        }
+
+        .small-margin-top {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="half" style="width: 20%">
+        <label for="idInstance">idInstance</label>
+        <input id="idInstance" type="text">
+        <label for="ApiTokenInstance">ApiTokenInstance</label>
+        <input id="ApiTokenInstance" type="text">
+
+        <button class="big-margin-top">getSettings</button>
+        <button class="small-margin-top">getStateInstance</button>
+
+        <label for="msgPhone" class="big-margin-top">Телефон</label>
+        <input id="msgPhone" type="text">
+
+        <label for="msg">Сообщение</label>
+        <textarea id="msg" rows="3"></textarea>
+
+        <button class="small-margin-top">sendMessage</button>
+
+        <label for="filePhone" class="big-margin-top">Телефон</label>
+        <input id="filePhone" type="text">
+
+        <label for="file">Сообщение</label>
+        <input id="file" type="text">
+
+        <button class="small-margin-top">sendMessage</button>
+
+    </div>
+    <div class="half" style="width: 40%">
+        <label for="response">Ответ</label>
+        <textarea id="response" rows="30" readonly></textarea>
+    </div>
+</body>
+</html>
