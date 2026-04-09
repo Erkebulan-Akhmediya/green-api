@@ -28,8 +28,8 @@
     <div class="half" style="width: 20%">
         <label for="idInstance">idInstance</label>
         <input id="idInstance" type="text">
-        <label for="ApiTokenInstance">ApiTokenInstance</label>
-        <input id="ApiTokenInstance" type="text">
+        <label for="apiTokenInstance">apiTokenInstance</label>
+        <input id="apiTokenInstance" type="text">
 
         <button class="big-margin-top">getSettings</button>
         <button class="small-margin-top">getStateInstance</button>
@@ -40,7 +40,7 @@
         <label for="msg">Сообщение</label>
         <textarea id="msg" rows="3"></textarea>
 
-        <button class="small-margin-top">sendMessage</button>
+        <button class="small-margin-top" id="sendMessage">sendMessage</button>
 
         <label for="filePhone" class="big-margin-top">Телефон</label>
         <input id="filePhone" type="text">
@@ -55,5 +55,34 @@
         <label for="response">Ответ</label>
         <textarea id="response" rows="30" readonly></textarea>
     </div>
+    <script src="https://unpkg.com/axios@1.13.2/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/@green-api/whatsapp-api-client/lib/whatsapp-api-client.min.js"></script>
+    <script>
+        let instance;
+
+        function getInstance() {
+            if (!instance) {
+                const idInstance = document.getElementById('idInstance').value
+                const apiTokenInstance = document.getElementById('apiTokenInstance').value
+                instance = whatsAppClient.restAPI({
+                    idInstance,
+                    apiTokenInstance,
+                })
+            }
+            return instance;
+        }
+
+        function sendMessage() {
+            const phone = document.getElementById('msgPhone').value + '@c.us'
+            const msg = document.getElementById('msg').value
+            const response = document.getElementById('response')
+            getInstance().message
+                .sendMessage(phone, null, msg)
+                .then(data => response.value = JSON.stringify(data))
+                .catch(err => response.value = err)
+        }
+
+        document.getElementById('sendMessage').addEventListener('click', sendMessage)
+    </script>
 </body>
 </html>
