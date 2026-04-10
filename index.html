@@ -59,7 +59,6 @@
     <script src="https://unpkg.com/@green-api/whatsapp-api-client/lib/whatsapp-api-client.min.js"></script>
     <script>
         let instance;
-        const response = document.getElementById('response')
 
         function getInstance() {
             if (!instance) {
@@ -73,36 +72,35 @@
             return instance;
         }
 
-        function getSettings() {
-            getInstance().settings
-                .getSettings()
+        function displayResponse(promise) {
+            const response = document.getElementById('response')
+            promise
                 .then(data => response.value = JSON.stringify(data))
                 .catch(err => response.value = err)
         }
 
+        function getSettings() {
+            const res = getInstance().settings.getSettings()
+            displayResponse(res)
+        }
+
         function getStateInstance() {
-            getInstance().instance
-                .getStateInstance()
-                .then(data => response.value = JSON.stringify(data))
-                .catch(err => response.value = err)
+            const res = getInstance().instance.getStateInstance()
+            displayResponse(res)
         }
 
         function sendMessage() {
             const phone = document.getElementById('msgPhone').value + '@c.us'
             const msg = document.getElementById('msg').value
-            getInstance().message
-                .sendMessage(phone, null, msg)
-                .then(data => response.value = JSON.stringify(data))
-                .catch(err => response.value = err)
+            const res = getInstance().message.sendMessage(phone, null, msg)
+            displayResponse(res)
         }
 
         function sendFileByUrl() {
             const phone = document.getElementById('filePhone').value + '@c.us'
             const url = document.getElementById('fileUrl').value
-            getInstance().file
-                .sendFileByUrl(phone, null, url, 'file')
-                .then(data => response.value = JSON.stringify(data))
-                .catch(err => response.value = err)
+            const res = getInstance().file.sendFileByUrl(phone, null, url, 'file')
+            displayResponse(res)
         }
 
         document.getElementById('getSettings').addEventListener('click', getSettings)
