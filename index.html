@@ -31,8 +31,8 @@
         <label for="apiTokenInstance">apiTokenInstance</label>
         <input id="apiTokenInstance" type="text">
 
-        <button class="big-margin-top">getSettings</button>
-        <button class="small-margin-top">getStateInstance</button>
+        <button class="big-margin-top" id="getSettings">getSettings</button>
+        <button class="small-margin-top" id="getStateInstance">getStateInstance</button>
 
         <label for="msgPhone" class="big-margin-top">Телефон</label>
         <input id="msgPhone" type="text">
@@ -45,10 +45,10 @@
         <label for="filePhone" class="big-margin-top">Телефон</label>
         <input id="filePhone" type="text">
 
-        <label for="file">Сообщение</label>
-        <input id="file" type="text">
+        <label for="fileUrl">Ссылка на файл</label>
+        <input id="fileUrl" type="text">
 
-        <button class="small-margin-top">sendMessage</button>
+        <button class="small-margin-top" id="sendFileByUrl">sendFileByUrl</button>
 
     </div>
     <div class="half" style="width: 40%">
@@ -59,6 +59,7 @@
     <script src="https://unpkg.com/@green-api/whatsapp-api-client/lib/whatsapp-api-client.min.js"></script>
     <script>
         let instance;
+        const response = document.getElementById('response')
 
         function getInstance() {
             if (!instance) {
@@ -72,17 +73,42 @@
             return instance;
         }
 
+        function getSettings() {
+            getInstance().settings
+                .getSettings()
+                .then(data => response.value = JSON.stringify(data))
+                .catch(err => response.value = err)
+        }
+
+        function getStateInstance() {
+            getInstance().instance
+                .getStateInstance()
+                .then(data => response.value = JSON.stringify(data))
+                .catch(err => response.value = err)
+        }
+
         function sendMessage() {
             const phone = document.getElementById('msgPhone').value + '@c.us'
             const msg = document.getElementById('msg').value
-            const response = document.getElementById('response')
             getInstance().message
                 .sendMessage(phone, null, msg)
                 .then(data => response.value = JSON.stringify(data))
                 .catch(err => response.value = err)
         }
 
+        function sendFileByUrl() {
+            const phone = document.getElementById('filePhone').value + '@c.us'
+            const url = document.getElementById('fileUrl').value
+            getInstance().file
+                .sendFileByUrl(phone, null, url, 'file')
+                .then(data => response.value = JSON.stringify(data))
+                .catch(err => response.value = err)
+        }
+
+        document.getElementById('getSettings').addEventListener('click', getSettings)
+        document.getElementById('getStateInstance').addEventListener('click', getStateInstance)
         document.getElementById('sendMessage').addEventListener('click', sendMessage)
+        document.getElementById('sendFileByUrl').addEventListener('click', sendFileByUrl)
     </script>
 </body>
 </html>
